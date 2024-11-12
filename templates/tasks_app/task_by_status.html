@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center" style="font-family: Courier; font-weight: bold;">tasks</h1>
+    <div class="text-center mb-4">
+        <a href="{% url 'add_task' %}" class="btn btn-primary" style="font-family: Courier; font-weight: bold;">
+            <i class="fas fa-plus"></i>add_task
+        </a>
+    </div>
+
+    
+
+    <div class="row mb-4" id="task-columns">
+        <!-- Столбец для задач "Не начато" -->
+        <div class="col-md-4">
+            <h3 style="font-family: Courier; font-weight: bold;" class="text-center">not_started</h3>
+            {% for task in not_started_tasks %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-family: Courier; font-weight: bold;">{{ task.name|lower }}</h5>
+                        <p class="card-text" style="font-family: Courier;">{{ task.description|lower }}</p>
+                        <p> 
+                            <span class="card-text" style="font-family: Courier;">priority:</span>
+                            <span class="card-text" style="font-family: Courier; 
+                                   {% if task.priority == 'high' %}color: red;{% elif task.priority == 'medium' %}color: orange;{% else %}color: green;{% endif %}">
+                                {{ task.priority|lower }}
+                            </span>
+                        </p>
+
+                        <!-- Контейнер для горизонтальных кнопок -->
+                        <div class="d-flex justify-content-between">
+                            <!-- Форма для изменения статуса на "In Progress" -->
+                            <form method="POST" action="{% url 'update-task-status' task.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="in_progress">
+                                <button type="submit" class="btn btn-warning" style="font-family: Courier; font-weight: bold; background-color: #FDCB8D; border-color: #FDCB8D; color: white">in_process</button>
+                            </form>
+
+                            <form method="POST" action="{% url 'delete-task' task.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" style="font-family: Courier; font-weight: bold; background-color: red; border-color: red;">delete</button>
+                            </form>
+
+                            <!-- Форма для изменения статуса на "Completed" -->
+                            <form method="POST" action="{% url 'update-task-status' task.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="completed">
+                                <button type="submit" class="btn btn-success" style="font-family: Courier; font-weight: bold; background-color: #007958;">done</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p style="font-family: Courier;">404:not_found</p>
+            {% endfor %}
+        </div>
+
+        <!-- Столбец для задач "В процессе" -->
+        <div class="col-md-4">
+            <h3 style="font-family: Courier; font-weight: bold;" class="text-center">in_progress</h3>
+            {% for task in in_progress_tasks %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-family: Courier; font-weight: bold;">{{ task.name|lower }}</h5>
+                        <p class="card-text" style="font-family: Courier;">{{ task.description|lower }}</p>
+                        <p> 
+                            <span class="card-text" style="font-family: Courier;">priority:</span>
+                            <span class="card-text" style="font-family: Courier; 
+                                   {% if task.priority == 'high' %}color: red;{% elif task.priority == 'medium' %}color: orange;{% else %}color: green;{% endif %}">
+                                {{ task.priority|lower }}
+                            </span>
+                        </p>
+
+                        <!-- Контейнер для горизонтальных кнопок -->
+                        <div class="d-flex justify-content-between">
+                            <!-- Форма для изменения статуса на "Not Started" -->
+                            <form method="POST" action="{% url 'update-task-status' task.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="not_started">
+                                <button type="submit" class="btn btn-danger" style="font-family: Courier; font-weight: bold; background-color: pink; border-color: pink;">not_started</button>
+                            </form>
+
+                            <form method="POST" action="{% url 'delete-task' task.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" style="font-family: Courier; font-weight: bold; background-color: red; border-color: red;">delete</button>
+                            </form>
+
+                            <!-- Форма для изменения статуса на "Completed" -->
+                            <form method="POST" action="{% url 'update-task-status' task.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="completed">
+                                <button type="submit" class="btn btn-success" style="font-family: Courier; font-weight: bold; background-color: #007958;">done</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p style="font-family: Courier;">404:not_found</p>
+            {% endfor %}
+        </div>
+
+        <!-- Столбец для задач "Сделано" -->
+        <div class="col-md-4">
+            <h3 style="font-family: Courier; font-weight: bold;" class="text-center">done</h3>
+            {% for task in completed_tasks %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-family: Courier; font-weight: bold;">{{ task.name|lower }}</h5>
+                        <p class="card-text" style="font-family: Courier;">{{ task.description|lower }}</p>
+                        <p> 
+                            <span class="card-text" style="font-family: Courier;">priority:</span>
+                            <span class="card-text" style="font-family: Courier; 
+                                   {% if task.priority == 'high' %}color: red;{% elif task.priority == 'medium' %}color: orange;{% else %}color: green;{% endif %}">
+                                {{ task.priority|lower }}
+                            </span>
+                        </p>
+
+                        <!-- Контейнер для горизонтальных кнопок -->
+                        <div class="d-flex justify-content-between">
+                            <!-- Форма для изменения статуса на "Not Started" -->
+                            <form method="POST" action="{% url 'update-task-status' task.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="not_started">
+                                <button type="submit" class="btn btn-danger" style="font-family: Courier; font-weight: bold; background-color: pink; border-color: pink;">not_started</button>
+                            </form>
+
+                            <form method="POST" action="{% url 'delete-task' task.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" style="font-family: Courier; font-weight: bold; background-color: red; border-color: red;">delete</button>
+                            </form>
+
+                            <!-- Форма для изменения статуса на "In Progress" -->
+                            <form method="POST" action="{% url 'update-task-status' task.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="in_progress">
+                                <button type="submit" class="btn btn-warning" style="font-family: Courier; font-weight: bold; background-color: #FDCB8D; border-color: #FDCB8D; color: white;">in_process</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p style="font-family: Courier;">404:not_found</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

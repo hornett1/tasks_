@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-5" style="font-family: Courier; font-weight: bold;">Add Task</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  
+        <button type="submit" class="btn btn-success" style="font-family: Courier; font-weight: bold;">Save Task</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .low-priority { color: green; }
+    .medium-priority { color: orange; }
+    .high-priority { color: red; }
+</style>
+
+<h1 style="font-family: Courier; font-weight: bold;">{{ task.name|lower }}</h1>
+<p style="font-family: Courier;">{{ task.description|lower }}</p>
+<p> <strong style="font-family: Courier;">priority:</strong> 
+    <span class="{% if task.priority == 'low' %}low-priority{% elif task.priority == 'medium' %}medium-priority{% elif task.priority == 'high' %}high-priority{% endif %}" style="font-family: Courier;">
+    {{ task.priority|lower }}</span>
+</p>
+<p style="font-family: Courier;">{{ task.status|lower }}</p>
+{% endblock %}
