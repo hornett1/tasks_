@@ -23,6 +23,7 @@ class Task(models.Model):
     start_date = models.DateTimeField(null=True, blank=True, verbose_name="Начало таска")
     end_date = models.DateTimeField(null=True, blank=True, verbose_name="Конец таска")
     task_author = models.ForeignKey(User, related_name="author", on_delete=models.CASCADE, default=1)
+    image = models.ImageField(upload_to="media", blank=True, null=True)
 
     def __str__(self):
         return f'{self.name}'
